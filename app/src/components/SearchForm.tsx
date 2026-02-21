@@ -247,7 +247,7 @@ export function SearchForm() {
               type="button"
               onClick={search}
               disabled={loading}
-              className="bg-primary hover:bg-primary/90 text-[#102222] font-bold rounded-full px-8 h-12 transition-transform active:scale-95 flex items-center gap-2 disabled:opacity-60 disabled:pointer-events-none"
+              className="bg-primary hover:bg-primary/90 text-[#102222] font-bold rounded-full px-8 h-12 transition-transform active:scale-95 flex items-center gap-2 disabled:opacity-60 disabled:pointer-events-none cursor-pointer"
             >
               {loading ? (
                 <>
