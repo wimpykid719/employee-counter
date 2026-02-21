@@ -80,8 +80,21 @@ const RegionalContext = ({ address }: { address?: string }) => {
       )}&output=embed`
     : "";
 
+  const mapLink = address
+    ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+        address,
+      )}`
+    : undefined;
+
+  const Wrapper = mapLink ? "a" : "div";
+
   return (
-    <div className="lg:col-span-3 bg-surface rounded-2xl border border-border h-48 relative overflow-hidden group">
+    <Wrapper
+      href={mapLink}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="lg:col-span-3 bg-surface rounded-2xl border border-border h-48 relative overflow-hidden group block cursor-pointer"
+    >
       {mapEmbedUrl && (
         <iframe
           src={mapEmbedUrl}
@@ -94,6 +107,7 @@ const RegionalContext = ({ address }: { address?: string }) => {
             border: 0,
             filter: "grayscale(50%)",
             opacity: 0.4,
+            pointerEvents: "none", // ← 重要（iframeがクリックを奪わないようにする）
           }}
           allowFullScreen={false}
           loading="lazy"
@@ -101,33 +115,21 @@ const RegionalContext = ({ address }: { address?: string }) => {
           title={`Google Map of ${address || "location"}`}
         />
       )}
+
       <div className="absolute inset-0 bg-linear-to-t from-surface via-surface/80 to-transparent" />
+
       <div className="absolute bottom-0 left-0 p-6 z-10">
         <p className="text-foreground font-bold text-lg flex items-center gap-2">
           <span className="material-symbols-outlined text-primary">map</span>
           地域情報
         </p>
         <p className="text-surface-muted text-sm max-w-xl">
-          {address ? (
-            <>
-              <a
-                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                  address,
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-primary transition-colors"
-              >
-                {address}
-              </a>
-              に所在。日本年金機構の公表情報に基づきます。
-            </>
-          ) : (
-            "日本年金機構の公表情報に基づいています。"
-          )}
+          {address
+            ? `${address} に所在。日本年金機構の公表情報に基づきます。`
+            : "日本年金機構の公表情報に基づいています。"}
         </p>
       </div>
-    </div>
+    </Wrapper>
   );
 };
 
