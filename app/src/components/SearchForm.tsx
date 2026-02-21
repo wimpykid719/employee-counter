@@ -13,20 +13,122 @@ type NenkinRow = {
   hihokenshaCount: string;
 };
 
-const getCompanySize = (employeeCountStr: string): string => {
+const CompanySizeIndicator = ({
+  employeeCountStr,
+}: {
+  employeeCountStr: string;
+}) => {
   const employeeCount = parseInt(employeeCountStr, 10);
+
+  const levels = [
+    {
+      name: "零細企業",
+      max: 20,
+      description: "従業員20人以下",
+      width: "33.3%",
+    },
+    {
+      name: "中小企業",
+      max: 300,
+      description: "従業員300人以下",
+      width: "66.6%",
+    },
+    {
+      name: "大企業",
+      max: Infinity,
+      description: "従業員301人以上",
+      width: "100%",
+    },
+  ];
+
+  let currentLevel = levels[0];
   if (Number.isNaN(employeeCount)) {
-    return "不明";
+    currentLevel = {
+      name: "不明",
+      max: 0,
+      description: "被保険者数から判定できません",
+      width: "0%",
+    };
+  } else {
+    currentLevel =
+      levels.find((l) => employeeCount <= l.max) ?? levels[levels.length - 1];
   }
-  if (employeeCount <= 20) {
-    return "零細企業";
-  }
-  if (employeeCount <= 300) {
-    return "中小企業";
-  }
-  return "大企業";
+
+  return (
+    <div className="w-full space-y-2">
+      <div className="flex justify-between items-center text-xs">
+        <span className="text-surface-muted">企業規模</span>
+        <span className="font-bold text-primary">{currentLevel.name}</span>
+      </div>
+      <div className="w-full bg-surface-muted rounded-full h-2 overflow-hidden">
+        <div
+          className="bg-primary h-2 rounded-full transition-all duration-500"
+          style={{ width: currentLevel.width }}
+        />
+      </div>
+      <p className="text-surface-muted text-xs text-right">
+        {currentLevel.description}
+      </p>
+    </div>
+  );
 };
 
+const RegionalContext = ({ address }: { address?: string }) => {
+  const mapEmbedUrl = address
+    ? `https://maps.google.com/maps?q=${encodeURIComponent(
+        address,
+      )}&output=embed`
+    : "";
+
+  return (
+    <div className="lg:col-span-3 bg-surface rounded-2xl border border-border h-48 relative overflow-hidden group">
+      {mapEmbedUrl && (
+        <iframe
+          src={mapEmbedUrl}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            border: 0,
+            filter: "grayscale(50%)",
+            opacity: 0.4,
+          }}
+          allowFullScreen={false}
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+        />
+      )}
+      <div className="absolute inset-0 bg-linear-to-t from-surface via-surface/80 to-transparent" />
+      <div className="absolute bottom-0 left-0 p-6 z-10">
+        <p className="text-foreground font-bold text-lg flex items-center gap-2">
+          <span className="material-symbols-outlined text-primary">map</span>
+          地域情報
+        </p>
+        <p className="text-surface-muted text-sm max-w-xl">
+          {address ? (
+            <>
+              <a
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                  address,
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-primary transition-colors"
+              >
+                {address}
+              </a>
+              に所在。日本年金機構の公表情報に基づきます。
+            </>
+          ) : (
+            "日本年金機構の公表情報に基づいています。"
+          )}
+        </p>
+      </div>
+    </div>
+  );
+};
 
 type Result = {
   hitCount: number;
@@ -259,40 +361,15 @@ export function SearchForm() {
                       <p className="text-surface-muted text-sm mt-2">人</p>
                     </div>
                     <div className="relative z-10 w-full mt-4 pt-4 border-t border-border">
-                      <div className="flex justify-between text-xs text-surface-muted mb-1">
-                        <span>企業規模</span>
-                        <span className="text-primary font-bold">
-                          {getCompanySize(row.hihokenshaCount)}
-                        </span>
-                      </div>
-                    </div>
+                      <CompanySizeIndicator
+                        employeeCountStr={row.hihokenshaCount}
+                      />
+                    </div>{" "}
                   </div>
                 </Fragment>
               ))}
 
-              {/* Regional Context - sample.html の lg:col-span-3 と同じ */}
-              <div className="lg:col-span-3 bg-surface rounded-2xl border border-border h-48 relative overflow-hidden group">
-                <div
-                  className="absolute inset-0 bg-cover bg-center opacity-40 group-hover:opacity-60 transition-opacity duration-500"
-                  style={{
-                    backgroundImage: `url('https://lh3.googleusercontent.com/aida-public/AB6AXuDWdPY0CnIsV9ytI9AcTpd0LGVeCfji2ezWqKighuzGzAz3t2mJKO5Qm0twwtSc_hyKq3JY0_JxUhmuX1HLXTX6ErRhpRKfPUsRcwkWPqVxXPTNy2MS50kQB0dBuKRf4725FaSja401VGbRWTtVSqkvkkBSYZPWWR4cHdUNbFptL6UTrjHZBHtODlFglmACQHpvG_TDDBE1JU9ysGKUnvcB1b5FnBBk968ZtSJXw2DLK3Qf6JqqXy4Jhg6pmjtxOtlfO0uJD7kg6nLp')`,
-                  }}
-                />
-                <div className="absolute inset-0 bg-linear-to-t from-surface via-surface/80 to-transparent" />
-                <div className="absolute bottom-0 left-0 p-6">
-                  <p className="text-foreground font-bold text-lg flex items-center gap-2">
-                    <span className="material-symbols-outlined text-primary">
-                      map
-                    </span>
-                    地域情報
-                  </p>
-                  <p className="text-surface-muted text-sm max-w-xl">
-                    {result.rows[0]?.address
-                      ? `${result.rows[0].address}に所在。日本年金機構の公表情報に基づきます。`
-                      : "日本年金機構の公表情報に基づいています。"}
-                  </p>
-                </div>
-              </div>
+              <RegionalContext address={result.rows[0]?.address} />
             </div>
           )}
         </section>
