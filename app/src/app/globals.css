@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f6f8f8;
+  --foreground: #171717;
+  --primary: #11d4d4;
+  --surface: #ffffff;
+  --surface-muted: #e8ecec;
+  --border: #e2e8e8;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #102222;
+    --foreground: #f0f4f4;
+    --surface: #1c2727;
+    --surface-muted: #283939;
+    --border: #2a3d3d;
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-border: var(--border);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --radius-default: 1rem;
+  --radius-lg: 1.5rem;
+  --radius-xl: 2rem;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+/* Material Symbols Outlined - sample.html と同じアイコン用 */
+.material-symbols-outlined {
+  font-family: "Material Symbols Outlined", sans-serif;
+  font-weight: 100 700;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
