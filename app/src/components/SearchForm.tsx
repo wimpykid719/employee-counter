@@ -98,6 +98,7 @@ const RegionalContext = ({ address }: { address?: string }) => {
           allowFullScreen={false}
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
+          title={`Google Map of ${address || "location"}`}
         />
       )}
       <div className="absolute inset-0 bg-linear-to-t from-surface via-surface/80 to-transparent" />
