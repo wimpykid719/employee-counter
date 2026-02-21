@@ -11,6 +11,7 @@ export async function GET(request: NextRequest) {
       { status: 400 },
     );
   }
+  console.log("検索対象の会社名: ", name);
 
   try {
     const url = `${EXCEL_API_BASE}?name=${encodeURIComponent(name.trim())}`;
