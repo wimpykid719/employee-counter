@@ -47,9 +47,7 @@ export async function POST(request: NextRequest) {
     });
 
     const html = await res.text();
-    // console.log("レスポンス", html);
     const result = parseNenkinSearchHtml(html);
-    console.log("抽出後", result);
     return NextResponse.json(result);
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";

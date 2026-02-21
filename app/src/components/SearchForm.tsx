@@ -163,6 +163,19 @@ export function SearchForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<Result | null>(null);
+  const [enterPressCount, setEnterPressCount] = useState(0);
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      setEnterPressCount((prev) => prev + 1);
+      if (enterPressCount + 1 >= 2) {
+        search();
+        setEnterPressCount(0);
+      }
+    } else {
+      setEnterPressCount(0);
+    }
+  };
 
   const search = async () => {
     const name = query.trim();
@@ -228,7 +241,7 @@ export function SearchForm() {
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && search()}
+              onKeyDown={handleKeyDown}
             />
             <button
               type="button"
@@ -264,9 +277,6 @@ export function SearchForm() {
         <section className="w-full space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-bold text-foreground">検索結果</h2>
-            <p className="text-surface-muted text-sm">
-              {result.hitCount}件が該当しました
-            </p>
           </div>
 
           {result.rows.length === 0 ? (
