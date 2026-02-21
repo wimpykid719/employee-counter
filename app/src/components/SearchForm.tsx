@@ -13,6 +13,21 @@ type NenkinRow = {
   hihokenshaCount: string;
 };
 
+const getCompanySize = (employeeCountStr: string): string => {
+  const employeeCount = parseInt(employeeCountStr, 10);
+  if (Number.isNaN(employeeCount)) {
+    return "不明";
+  }
+  if (employeeCount <= 20) {
+    return "零細企業";
+  }
+  if (employeeCount <= 300) {
+    return "中小企業";
+  }
+  return "大企業";
+};
+
+
 type Result = {
   hitCount: number;
   rows: NenkinRow[];
@@ -219,42 +234,36 @@ export function SearchForm() {
                   {/* Estimation Highlight Card - sample.html の lg:col-span-1 と同じ */}
                   <div
                     key={`highlight-${row.houjinNo}-${i}`}
-                    className="lg:col-span-1 bg-linear-to-b from-surface-muted to-surface rounded-2xl p-1 border border-primary/20 shadow-xl shadow-primary/5"
+                    className="lg:col-span-1 bg-surface rounded-2xl p-6 md:p-8 border border-border shadow-xl flex flex-col items-center justify-center text-center gap-4 relative overflow-hidden"
                   >
-                    <div className="bg-surface h-full w-full rounded-xl p-6 flex flex-col items-center justify-center text-center gap-4 relative overflow-hidden">
-                      <div
-                        className="absolute inset-0 opacity-10"
-                        style={{
-                          backgroundImage:
-                            "radial-gradient(var(--color-primary) 1px, transparent 1px)",
-                          backgroundSize: "20px 20px",
-                        }}
-                      />
-                      <div className="relative z-10 bg-surface-muted p-3 rounded-full mb-2">
-                        <span className="material-symbols-outlined text-primary text-3xl">
-                          groups
+                    <div
+                      className="absolute inset-0 opacity-10"
+                      style={{
+                        backgroundImage:
+                          "radial-gradient(var(--color-primary) 1px, transparent 1px)",
+                        backgroundSize: "20px 20px",
+                      }}
+                    />
+                    <div className="relative z-10 p-3 mb-2 bg-primary/10 text-primary text-xs font-bold px-3 rounded-full border border-primary/20 uppercase tracking-wider w-14 h-14">
+                      <span className="material-symbols-outlined text-primary text-3xl">
+                        groups
+                      </span>
+                    </div>
+                    <div className="relative z-10">
+                      <p className="text-surface-muted text-sm font-medium uppercase tracking-wider mb-2">
+                        推定正社員数
+                      </p>
+                      <h2 className="text-6xl font-black text-primary tracking-tighter drop-shadow-lg">
+                        {row.hihokenshaCount || "—"}
+                      </h2>
+                      <p className="text-surface-muted text-sm mt-2">人</p>
+                    </div>
+                    <div className="relative z-10 w-full mt-4 pt-4 border-t border-border">
+                      <div className="flex justify-between text-xs text-surface-muted mb-1">
+                        <span>企業規模</span>
+                        <span className="text-primary font-bold">
+                          {getCompanySize(row.hihokenshaCount)}
                         </span>
-                      </div>
-                      <div className="relative z-10">
-                        <p className="text-surface-muted text-sm font-medium uppercase tracking-wider mb-2">
-                          推定正社員数
-                        </p>
-                        <h2 className="text-6xl font-black text-primary tracking-tighter drop-shadow-lg">
-                          {row.hihokenshaCount || "—"}
-                        </h2>
-                        <p className="text-surface-muted text-sm mt-2">人</p>
-                      </div>
-                      <div className="relative z-10 w-full mt-4 pt-4 border-t border-border">
-                        <div className="flex justify-between text-xs text-surface-muted mb-1">
-                          <span>信頼度</span>
-                          <span className="text-primary font-bold">高</span>
-                        </div>
-                        <div className="w-full bg-surface-muted rounded-full h-1.5">
-                          <div
-                            className="bg-primary h-1.5 rounded-full"
-                            style={{ width: "85%" }}
-                          />
-                        </div>
                       </div>
                     </div>
                   </div>
