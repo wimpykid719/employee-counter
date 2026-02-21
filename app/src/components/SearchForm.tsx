@@ -75,7 +75,7 @@ export function SearchForm() {
         </div>
         <div className="w-full max-w-2xl relative group">
           <div className="absolute inset-0 bg-primary/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-          <div className="relative flex items-center bg-surface-muted border border-border rounded-full p-2 shadow-2xl shadow-black/10 dark:shadow-black/50 focus-within:border-primary/50 focus-within:ring-1 focus-within:ring-primary/50 transition-all duration-300">
+          <div className="relative flex items-center bg-surface border border-border rounded-full p-2 shadow-2xl shadow-black/10 dark:shadow-black/50 focus-within:border-primary/50 focus-within:ring-1 focus-within:ring-primary/50 transition-all duration-300">
             <span
               className="material-symbols-outlined text-surface-muted ml-4"
               aria-hidden
@@ -84,7 +84,7 @@ export function SearchForm() {
             </span>
             <input
               className="flex-1 bg-transparent border-none text-foreground placeholder:text-surface-muted focus:ring-0 focus:outline-none text-base px-4 h-12 min-w-0"
-              placeholder="Search Company Name (e.g. トヨタ自動車株式会社)"
+              placeholder="会社名で検索（例：トヨタ自動車株式会社）"
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
@@ -144,13 +144,7 @@ export function SearchForm() {
                       <div>
                         <div className="flex items-center gap-3 mb-2">
                           <span className="bg-primary/10 text-primary text-xs font-bold px-3 py-1 rounded-full border border-primary/20 uppercase tracking-wider">
-                            {row.genzonZenso || "Active Status"}
-                          </span>
-                          <span className="text-surface-muted text-xs flex items-center gap-1">
-                            <span className="material-symbols-outlined text-[14px]">
-                              verified
-                            </span>
-                            Verified Record
+                            {row.genzonZenso || "稼働状況"}
                           </span>
                         </div>
                         <h3 className="text-3xl font-bold text-foreground mb-1">
@@ -160,21 +154,15 @@ export function SearchForm() {
                           <span className="material-symbols-outlined text-[18px]">
                             numbers
                           </span>
-                          Corporate Number: {row.houjinNo || "—"}
+                          法人番号: {row.houjinNo || "—"}
                         </p>
                       </div>
-                      <button
-                        type="button"
-                        className="self-start text-sm font-medium text-primary hover:text-foreground border border-primary/30 hover:bg-primary/10 rounded-full px-4 py-2 transition-colors"
-                      >
-                        View Full Report
-                      </button>
                     </div>
                     <div className="h-px w-full bg-border" />
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-8 relative z-10">
                       <div className="space-y-1">
                         <span className="text-xs font-medium text-surface-muted uppercase tracking-wide">
-                          Location
+                          所在地
                         </span>
                         <div className="text-foreground font-medium flex items-start gap-2">
                           <span className="material-symbols-outlined text-primary mt-0.5 text-[20px]">
@@ -184,14 +172,14 @@ export function SearchForm() {
                             {row.address || "—"}
                             <br />
                             <span className="text-sm text-surface-muted">
-                              Japan
+                              日本
                             </span>
                           </span>
                         </div>
                       </div>
                       <div className="space-y-1">
                         <span className="text-xs font-medium text-surface-muted uppercase tracking-wide">
-                          Pension Office
+                          年金事務所
                         </span>
                         <div className="text-foreground font-medium flex items-center gap-2">
                           <span className="material-symbols-outlined text-primary text-[20px]">
@@ -202,7 +190,7 @@ export function SearchForm() {
                       </div>
                       <div className="space-y-1">
                         <span className="text-xs font-medium text-surface-muted uppercase tracking-wide">
-                          Date Recorded
+                          適用年月日
                         </span>
                         <div className="text-foreground font-medium flex items-center gap-2">
                           <span className="material-symbols-outlined text-primary text-[20px]">
@@ -213,7 +201,7 @@ export function SearchForm() {
                       </div>
                       <div className="space-y-1">
                         <span className="text-xs font-medium text-surface-muted uppercase tracking-wide">
-                          Insured Persons
+                          被保険者数
                         </span>
                         <div className="text-foreground font-medium flex items-center gap-2">
                           <span className="material-symbols-outlined text-primary text-[20px]">
@@ -221,7 +209,7 @@ export function SearchForm() {
                           </span>
                           {row.hihokenshaCount || "—"}{" "}
                           <span className="text-surface-muted text-sm font-normal">
-                            (Officially Registered)
+                            （公表値）
                           </span>
                         </div>
                       </div>
@@ -249,19 +237,17 @@ export function SearchForm() {
                       </div>
                       <div className="relative z-10">
                         <p className="text-surface-muted text-sm font-medium uppercase tracking-wider mb-2">
-                          Estimated Full-time
+                          推定正社員数
                         </p>
                         <h2 className="text-6xl font-black text-primary tracking-tighter drop-shadow-lg">
                           {row.hihokenshaCount || "—"}
                         </h2>
-                        <p className="text-surface-muted text-sm mt-2">
-                          Employees
-                        </p>
+                        <p className="text-surface-muted text-sm mt-2">人</p>
                       </div>
                       <div className="relative z-10 w-full mt-4 pt-4 border-t border-border">
                         <div className="flex justify-between text-xs text-surface-muted mb-1">
-                          <span>Confidence</span>
-                          <span className="text-primary font-bold">High</span>
+                          <span>信頼度</span>
+                          <span className="text-primary font-bold">高</span>
                         </div>
                         <div className="w-full bg-surface-muted rounded-full h-1.5">
                           <div
@@ -289,12 +275,12 @@ export function SearchForm() {
                     <span className="material-symbols-outlined text-primary">
                       map
                     </span>
-                    Regional Context
+                    地域情報
                   </p>
                   <p className="text-surface-muted text-sm max-w-xl">
                     {result.rows[0]?.address
-                      ? `Based in ${result.rows[0].address}. Public records from Japan Pension Service.`
-                      : "Based on public records from Japan Pension Service (年金機構)."}
+                      ? `${result.rows[0].address}に所在。日本年金機構の公表情報に基づきます。`
+                      : "日本年金機構の公表情報に基づいています。"}
                   </p>
                 </div>
               </div>
