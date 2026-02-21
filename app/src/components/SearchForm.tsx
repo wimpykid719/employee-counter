@@ -75,15 +75,11 @@ const CompanySizeIndicator = ({
 
 const RegionalContext = ({ address }: { address?: string }) => {
   const mapEmbedUrl = address
-    ? `https://maps.google.com/maps?q=${encodeURIComponent(
-        address,
-      )}&output=embed`
+    ? `https://maps.google.com/maps?q=${encodeURIComponent(address)}&output=embed`
     : "";
 
   const mapLink = address
-    ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-        address,
-      )}`
+    ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`
     : undefined;
 
   const Wrapper = mapLink ? "a" : "div";
@@ -93,36 +89,60 @@ const RegionalContext = ({ address }: { address?: string }) => {
       href={mapLink}
       target="_blank"
       rel="noopener noreferrer"
-      className="lg:col-span-3 bg-surface rounded-2xl border border-border h-48 relative overflow-hidden group block cursor-pointer"
+      className="
+        lg:col-span-3
+        bg-surface
+        rounded-2xl
+        border border-border
+        h-48
+        relative
+        overflow-hidden
+        group
+        block
+        cursor-pointer
+        transition-all duration-300
+        hover:scale-[1.02]
+        hover:shadow-xl
+      "
     >
       {mapEmbedUrl && (
         <iframe
           src={mapEmbedUrl}
           style={{
             position: "absolute",
-            top: 0,
-            left: 0,
+            inset: 0,
             width: "100%",
             height: "100%",
             border: 0,
             filter: "grayscale(50%)",
             opacity: 0.4,
-            pointerEvents: "none", // ← 重要（iframeがクリックを奪わないようにする）
+            pointerEvents: "none",
+            transition: "all 300ms",
           }}
-          allowFullScreen={false}
+          className="group-hover:grayscale-0 group-hover:opacity-70"
           loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-          title={`Google Map of ${address || "location"}`}
+          title="map"
         />
       )}
 
-      <div className="absolute inset-0 bg-linear-to-t from-surface via-surface/80 to-transparent" />
+      <div
+        className="
+          absolute inset-0
+          bg-linear-to-t
+          from-surface
+          via-surface/80
+          to-transparent
+          transition-opacity duration-300
+          group-hover:opacity-40
+        "
+      />
 
       <div className="absolute bottom-0 left-0 p-6 z-10">
         <p className="text-foreground font-bold text-lg flex items-center gap-2">
           <span className="material-symbols-outlined text-primary">map</span>
           地域情報
         </p>
+
         <p className="text-surface-muted text-sm max-w-xl">
           {address
             ? `${address} に所在。日本年金機構の公表情報に基づきます。`
