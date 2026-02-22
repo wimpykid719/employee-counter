@@ -216,7 +216,9 @@ export function SearchForm() {
         return;
       }
       setResult({ hitCount: searchData.hitCount, rows: searchData.rows });
-      setQuery(searchData.rows[0]?.officeName ?? "");
+      const companyName = searchData.rows[0]?.officeName ?? "";
+      setQuery(companyName);
+      router.push(`/?q=${encodeURIComponent(companyName)}`);
     } catch (e) {
       setError(e instanceof Error ? e.message : "通信エラーが発生しました");
     } finally {
