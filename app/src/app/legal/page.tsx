@@ -82,7 +82,7 @@ const LegalPage = () => {
                     mail
                   </span>
                   <a
-                    className="hover:text-primary underline underline-offset-4 decoration-primary/30"
+                    className="hover:text-primary underline underline-offset-4 decoration-primary/30 break-all"
                     href="mailto:daigakuseidatta.dev+seishaincounter@gmail.com"
                   >
                     daigakuseidatta.dev+seishaincounter@gmail.com
