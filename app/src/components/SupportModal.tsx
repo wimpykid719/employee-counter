@@ -56,7 +56,7 @@ export function SupportModal({ isOpen, onClose }: Props) {
             <span className="material-symbols-outlined text-[22px]">
               credit_card
             </span>
-            <span>Donate via Stripe</span>
+            <span>開発者にスパチャする</span>
             <span className="material-symbols-outlined text-sm opacity-60 group-hover:translate-x-1 transition-transform">
               arrow_outward
             </span>
