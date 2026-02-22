@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 const EXCEL_API_BASE = "https://api.excelapi.org/company/number";
 
 export async function GET(request: NextRequest) {
-  const name = request.nextUrl.searchParams.get("name");
+  const name = request.nextUrl.searchParams.get("q");
   if (!name || name.trim() === "") {
     return NextResponse.json(
       { error: "会社名を指定してください" },

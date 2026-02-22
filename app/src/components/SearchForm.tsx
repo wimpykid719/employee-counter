@@ -1,6 +1,7 @@
 "use client";
 
-import { Fragment, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Fragment, useEffect, useState } from "react";
 
 type NenkinRow = {
   officeName: string;
@@ -159,13 +160,27 @@ type Result = {
 };
 
 export function SearchForm() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<Result | null>(null);
   const [enterPressCount, setEnterPressCount] = useState(0);
   const [corporateNumber, setCorporateNumber] = useState("");
+  const [initialSearchDone, setInitialSearchDone] = useState(false);
 
+  useEffect(() => {
+    if (!initialSearchDone) {
+      const urlQuery = searchParams.get("q");
+      if (urlQuery) {
+        setQuery(urlQuery);
+        // Trigger search directly
+        search(urlQuery);
+      }
+      setInitialSearchDone(true);
+    }
+  }, [searchParams, initialSearchDone]);
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       setEnterPressCount((prev) => prev + 1);
@@ -207,8 +222,8 @@ export function SearchForm() {
     }
   };
 
-  const search = async () => {
-    const name = query.trim();
+  const search = async (initialQuery?: string) => {
+    const name = (initialQuery ?? query).trim();
     if (!name) {
       setError("会社名を入力してください");
       return;
@@ -218,7 +233,7 @@ export function SearchForm() {
     setLoading(true);
     try {
       const numRes = await fetch(
-        `/api/company/number?name=${encodeURIComponent(name)}`,
+        `/api/company/number?q=${encodeURIComponent(name)}`,
       );
       const numData = await numRes.json();
       if (!numRes.ok) {
@@ -238,6 +253,8 @@ export function SearchForm() {
         return;
       }
       setResult({ hitCount: searchData.hitCount, rows: searchData.rows });
+      // Update URL after successful search
+      router.push(`/?q=${encodeURIComponent(name)}`, { shallow: true });
     } catch (e) {
       setError(e instanceof Error ? e.message : "通信エラーが発生しました");
     } finally {
