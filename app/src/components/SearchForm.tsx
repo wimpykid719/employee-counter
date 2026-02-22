@@ -164,6 +164,7 @@ export function SearchForm() {
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<Result | null>(null);
   const [enterPressCount, setEnterPressCount] = useState(0);
+  const [corporateNumber, setCorporateNumber] = useState("");
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -174,6 +175,35 @@ export function SearchForm() {
       }
     } else {
       setEnterPressCount(0);
+    }
+  };
+
+  const houjinNoSerch = async () => {
+    const houjinNo = corporateNumber.trim();
+    if (!houjinNo) {
+      setError("法人番号を入力してください");
+      return;
+    }
+    setError(null);
+    setResult(null);
+    setLoading(true);
+    try {
+      const searchRes = await fetch("/api/nenkin/search", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ houjinNo }),
+      });
+      const searchData = await searchRes.json();
+      if (!searchRes.ok) {
+        setError(searchData.error ?? "年金データの検索に失敗しました");
+        return;
+      }
+      setResult({ hitCount: searchData.hitCount, rows: searchData.rows });
+      setQuery(searchData.rows[0]?.officeName ?? "");
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "通信エラーが発生しました");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -196,6 +226,7 @@ export function SearchForm() {
         return;
       }
       const houjinNo = numData.number;
+      setCorporateNumber(houjinNo);
       const searchRes = await fetch("/api/nenkin/search", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -304,7 +335,28 @@ export function SearchForm() {
                           <span className="material-symbols-outlined text-[18px]">
                             numbers
                           </span>
-                          法人番号: {row.houjinNo || "—"}
+                          法人番号:{" "}
+                          <input
+                            type="text"
+                            value={corporateNumber}
+                            onChange={(e) => {
+                              setCorporateNumber(e.target.value);
+                            }}
+                            onBlur={() => {
+                              if (corporateNumber.trim() !== "") {
+                                houjinNoSerch();
+                              }
+                            }}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") {
+                                if (corporateNumber.trim() !== "") {
+                                  houjinNoSerch();
+                                }
+                                e.currentTarget.blur(); // Remove focus after search
+                              }
+                            }}
+                            className="bg-transparent border-surface-muted focus:border-primary focus:outline-none text-foreground text-sm px-1 -mx-1 cursor-pointer"
+                          />
                         </p>
                       </div>
                     </div>
