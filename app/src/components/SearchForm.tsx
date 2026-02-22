@@ -170,6 +170,7 @@ export function SearchForm() {
   const [corporateNumber, setCorporateNumber] = useState("");
   const [initialSearchDone, setInitialSearchDone] = useState(false);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (!initialSearchDone) {
       const urlQuery = searchParams.get("q");
@@ -181,6 +182,7 @@ export function SearchForm() {
       setInitialSearchDone(true);
     }
   }, [searchParams, initialSearchDone]);
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       setEnterPressCount((prev) => prev + 1);
@@ -254,7 +256,7 @@ export function SearchForm() {
       }
       setResult({ hitCount: searchData.hitCount, rows: searchData.rows });
       // Update URL after successful search
-      router.push(`/?q=${encodeURIComponent(name)}`, { shallow: true });
+      router.push(`/?q=${encodeURIComponent(name)}`);
     } catch (e) {
       setError(e instanceof Error ? e.message : "通信エラーが発生しました");
     } finally {
@@ -293,7 +295,7 @@ export function SearchForm() {
             />
             <button
               type="button"
-              onClick={search}
+              onClick={() => search()}
               disabled={loading}
               className="bg-primary hover:bg-primary/90 text-[#102222] font-bold rounded-full px-8 h-12 transition-transform active:scale-95 flex items-center gap-2 disabled:opacity-60 disabled:pointer-events-none cursor-pointer"
             >
