@@ -18,6 +18,21 @@ export const metadata: Metadata = {
   title: "正社員カウンター",
   description:
     "会社名から厚生年金の被保険者数（正社員規模の目安）を公表情報から取得",
+  openGraph: {
+    title: "正社員カウンター",
+    description:
+      "会社名から厚生年金の被保険者数（正社員規模の目安）を公表情報から取得",
+    url: "https://employee-counter-ten.vercel.app",
+    siteName: "正社員カウンター",
+    locale: "ja_JP",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "正社員カウンター",
+    description:
+      "会社名から厚生年金の被保険者数（正社員規模の目安）を公表情報から取得",
+  },
 };
 
 export default function RootLayout({
