@@ -68,6 +68,14 @@ export default function RootLayout({
             <p>
               厚生年金・年金機構の公表データを参照しています。表示は参考情報です。
             </p>
+            <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 mt-4">
+              <a
+                href="/legal"
+                className="hover:text-foreground transition-colors"
+              >
+                特定商取引法に基づく表記
+              </a>
+            </div>
           </div>
         </footer>
       </body>
