@@ -83,9 +83,9 @@ const LegalPage = () => {
                   </span>
                   <a
                     className="hover:text-primary underline underline-offset-4 decoration-primary/30"
-                    href="mailto:support@example.com"
+                    href="mailto:daigakuseidatta.dev+seishaincounter@gmail.com"
                   >
-                    support@example.com
+                    daigakuseidatta.dev+seishaincounter@gmail.com
                   </a>
                 </p>
                 <p className="flex items-center gap-2">
