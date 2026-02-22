@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 type Props = {
   isOpen: boolean;
   onClose: () => void;
@@ -49,8 +47,10 @@ export function SupportModal({ isOpen, onClose }: Props) {
               開発者ブログを見る →
             </a>
           </p>
-          <button
-            type="button"
+          <a
+            href="xxx"
+            target="_blank"
+            rel="noopener noreferrer"
             className="cursor-pointer w-full bg-primary hover:bg-primary/90 text-background-dark font-bold text-base py-3.5 px-6 rounded-xl transition-all duration-200 flex items-center justify-center gap-3 group shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:-translate-y-0.5"
           >
             <span className="material-symbols-outlined text-[22px]">
@@ -60,7 +60,7 @@ export function SupportModal({ isOpen, onClose }: Props) {
             <span className="material-symbols-outlined text-sm opacity-60 group-hover:translate-x-1 transition-transform">
               arrow_outward
             </span>
-          </button>
+          </a>
           <div className="mt-6 flex items-center justify-center gap-2 text-xs text-slate-400">
             <span className="material-symbols-outlined text-sm">lock</span>
             <span>Secure payment processed by Stripe</span>
