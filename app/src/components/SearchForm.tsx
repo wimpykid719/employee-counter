@@ -306,8 +306,11 @@ export function SearchForm() {
 
       {result && (
         <section className="w-full space-y-6">
-          <div className="flex items-center justify-between">
+          <div className="items-center justify-between">
             <h2 className="text-xl font-bold text-foreground">検索結果</h2>
+            <p className="text-surface-muted text-sm mt-2">
+              上手く検索結果が表示されない場合は法人番号を編集してみて下さい。
+            </p>
           </div>
 
           {result.rows.length === 0 ? (
@@ -355,7 +358,7 @@ export function SearchForm() {
                                 e.currentTarget.blur(); // Remove focus after search
                               }
                             }}
-                            className="bg-transparent border-surface-muted focus:border-primary focus:outline-none text-foreground text-sm px-1 -mx-1 cursor-pointer"
+                            className="bg-surface border border-border rounded-md focus:border-primary focus:outline-none text-foreground text-sm px-2 py-1"
                           />
                         </p>
                       </div>
