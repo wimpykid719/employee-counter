@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { SearchForm } from "@/components/SearchForm";
 import { SupportButton } from "@/components/SupportButton";
 import { SupportModal } from "@/components/SupportModal";
@@ -29,7 +29,9 @@ export default function Home() {
 
   return (
     <>
-      <SearchForm />
+      <Suspense fallback={null}>
+        <SearchForm />
+      </Suspense>
       <SupportModal isOpen={isModalOpen} onClose={closeModal} />
       {showSupportButton && <SupportButton onClick={openModal} />}
     </>
