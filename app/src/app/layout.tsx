@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import "./globals.css";
+import Link from "next/link";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,7 +38,7 @@ export default function RootLayout({
       >
         <GoogleAnalytics />
         <header className="flex items-center border-b border-border px-4 py-4 md:px-10">
-          <div className="flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-3">
             <div className="flex items-center justify-center size-8 rounded-lg bg-primary/10 text-primary">
               <svg
                 className="w-5 h-5"
@@ -58,7 +59,7 @@ export default function RootLayout({
             <h2 className="text-lg font-bold tracking-tight">
               正社員カウンター
             </h2>
-          </div>
+          </Link>
         </header>
         <main className="flex-1 w-full max-w-[1200px] mx-auto px-4 py-8 md:px-6 md:py-12">
           {children}

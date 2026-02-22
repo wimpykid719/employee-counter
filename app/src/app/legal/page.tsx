@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Link from "next/link";
 
 const LegalPage = () => {
   return (
@@ -13,7 +14,7 @@ const LegalPage = () => {
       <main className="flex-1 px-6 py-12 md:px-20 lg:px-40 max-w-[1200px] mx-auto w-full">
         {/* Back Button */}
         <div className="mb-8">
-          <a
+          <Link
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 hover:bg-primary/20 text-primary text-sm font-bold transition-all group"
             href="/"
           >
@@ -21,7 +22,7 @@ const LegalPage = () => {
               arrow_back
             </span>
             <span>正社員カウンターに戻る</span>
-          </a>
+          </Link>
         </div>
 
         {/* Page Header */}
@@ -148,13 +149,13 @@ const LegalPage = () => {
 
         {/* Bottom Back Button */}
         <div className="mt-12 flex justify-center">
-          <a
+          <Link
             href="/"
             className="flex items-center justify-center gap-3 bg-primary text-slate-900 font-black px-10 py-4 rounded-full hover:scale-105 active:scale-95 transition-all shadow-lg shadow-primary/20"
           >
             <span className="material-symbols-outlined">home</span>
             <span>正社員カウンターに戻る</span>
-          </a>
+          </Link>
         </div>
       </main>
     </>
