@@ -22,19 +22,24 @@ function trackPageView(args: { pathname: string; search: string }): void {
     page_title: typeof document !== "undefined" ? document.title : undefined,
     page_location:
       typeof window !== "undefined" ? window.location.href : undefined,
-    page_path:
-      `${args.pathname}${args.search ? `?${args.search}` : ""}` || undefined,
+    // page_path にクエリを含めると、GA4の拡張計測（サイト内検索）と干渉して
+    // パラメータが重複（/?q=A?q=A）することがあるため、パスのみを送信します
+    page_path: args.pathname || undefined,
   };
 
   if (typeof window !== "undefined" && typeof window.gtag === "function") {
-    window.gtag("event", "page_view", params);
+    // config を使って現在のページの情報を更新し、page_view を送信します
+    window.gtag("config", GA4_MEASUREMENT_ID, {
+      ...params,
+      send_page_view: true,
+    });
     return;
   }
 
   // gtag初期化前でもdataLayerに積んでおく（後からgtag.jsが拾う）
   if (typeof window !== "undefined") {
     window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push(["event", "page_view", params]);
+    window.dataLayer.push(["config", GA4_MEASUREMENT_ID, params]);
   }
 }
 
