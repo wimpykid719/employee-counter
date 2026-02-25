@@ -159,7 +159,11 @@ type Result = {
   rows: NenkinRow[];
 };
 
-export function SearchForm() {
+export function SearchForm({
+  initialRecentQueries = [],
+}: {
+  initialRecentQueries?: string[];
+}) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [query, setQuery] = useState("");
@@ -169,29 +173,17 @@ export function SearchForm() {
   const [enterPressCount, setEnterPressCount] = useState(0);
   const [corporateNumber, setCorporateNumber] = useState("");
   const [initialSearchDone, setInitialSearchDone] = useState(false);
-  const [recentQueries, setRecentQueries] = useState<string[]>([]);
   const [visibleCount, setVisibleCount] = useState(5);
   const [showToast, setShowToast] = useState(false);
   const [toastQuery, setToastQuery] = useState("");
 
   useEffect(() => {
-    fetch("/api/ga/recent")
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.queries) {
-          setRecentQueries(data.queries);
-        }
-      })
-      .catch((err) => console.error("Failed to fetch recent queries:", err));
-  }, []);
-
-  useEffect(() => {
-    if (recentQueries.length > visibleCount) {
+    if (initialRecentQueries.length > visibleCount) {
       const timer = setInterval(() => {
         setVisibleCount((prev) => {
           const nextCount = prev + 1;
-          if (nextCount <= recentQueries.length) {
-            const newQuery = recentQueries[prev];
+          if (nextCount <= initialRecentQueries.length) {
+            const newQuery = initialRecentQueries[prev];
             setToastQuery(newQuery);
             setShowToast(true);
             setTimeout(() => setShowToast(false), 10000); // Hide after 10 seconds
@@ -203,7 +195,7 @@ export function SearchForm() {
       }, 45000); // 45 seconds
       return () => clearInterval(timer);
     }
-  }, [recentQueries, visibleCount]);
+  }, [initialRecentQueries, visibleCount]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
@@ -353,12 +345,12 @@ export function SearchForm() {
           </div>
         </div>
 
-        {recentQueries.length > 0 && (
+        {initialRecentQueries.length > 0 && (
           <div className="w-full max-w-2xl flex flex-wrap justify-center gap-2 mt-2">
             <span className="text-xs text-surface-muted w-full mb-1">
               最近検索された企業:
             </span>
-            {recentQueries.slice(0, visibleCount).map((q, index) => (
+            {initialRecentQueries.slice(0, visibleCount).map((q, index) => (
               <button
                 key={q}
                 type="button"

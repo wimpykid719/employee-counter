@@ -1,39 +1,19 @@
-"use client";
-
-import { Suspense, useEffect, useState } from "react";
+import { Suspense } from "react";
+import { HomeClient } from "@/components/HomeClient";
 import { SearchForm } from "@/components/SearchForm";
-import { SupportButton } from "@/components/SupportButton";
-import { SupportModal } from "@/components/SupportModal";
+import { getRecentQueries } from "@/lib/ga";
 
-export default function Home() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [showSupportButton, setShowSupportButton] = useState(false);
+export const revalidate = 3600; // Cache for 1 hour
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsModalOpen(true);
-    }, 30000); // 30 seconds
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  const openModal = () => {
-    setIsModalOpen(true);
-    setShowSupportButton(false);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setShowSupportButton(true);
-  };
+export default async function Home() {
+  const recentQueries = await getRecentQueries();
 
   return (
     <>
       <Suspense fallback={null}>
-        <SearchForm />
+        <SearchForm initialRecentQueries={recentQueries} />
       </Suspense>
-      <SupportModal isOpen={isModalOpen} onClose={closeModal} />
-      {showSupportButton && <SupportButton onClick={openModal} />}
+      <HomeClient />
     </>
   );
 }
