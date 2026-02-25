@@ -5,6 +5,9 @@ services:
       GIT_USER_NAME: ${GIT_USER_NAME}
       GIT_USER_EMAIL: ${GIT_USER_EMAIL}
       NEXT_PUBLIC_GA4_MEASUREMENT_ID: ${NEXT_PUBLIC_GA4_MEASUREMENT_ID}
+      GA4_PROPERTY_ID: ${GA4_PROPERTY_ID}
+      GA4_CLIENT_EMAIL: ${GA4_CLIENT_EMAIL}
+      GA4_PRIVATE_KEY: ${GA4_PRIVATE_KEY}
     build:
       context: .
       dockerfile: Dockerfile

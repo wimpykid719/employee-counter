@@ -169,6 +169,18 @@ export function SearchForm() {
   const [enterPressCount, setEnterPressCount] = useState(0);
   const [corporateNumber, setCorporateNumber] = useState("");
   const [initialSearchDone, setInitialSearchDone] = useState(false);
+  const [recentQueries, setRecentQueries] = useState<string[]>([]);
+
+  useEffect(() => {
+    fetch("/api/ga/recent")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.queries) {
+          setRecentQueries(data.queries);
+        }
+      })
+      .catch((err) => console.error("Failed to fetch recent queries:", err));
+  }, []);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
@@ -317,6 +329,27 @@ export function SearchForm() {
             </button>
           </div>
         </div>
+
+        {recentQueries.length > 0 && (
+          <div className="w-full max-w-2xl flex flex-wrap justify-center gap-2 mt-2">
+            <span className="text-xs text-surface-muted w-full mb-1">
+              最近検索された企業:
+            </span>
+            {recentQueries.map((q) => (
+              <button
+                key={q}
+                type="button"
+                onClick={() => {
+                  setQuery(q);
+                  search(q);
+                }}
+                className="text-xs bg-surface border border-border hover:border-primary/50 hover:text-primary px-3 py-1 rounded-full transition-colors cursor-pointer"
+              >
+                {q}
+              </button>
+            ))}
+          </div>
+        )}
       </section>
 
       {error && (
