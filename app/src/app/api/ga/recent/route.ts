@@ -1,6 +1,8 @@
 import { BetaAnalyticsDataClient } from "@google-analytics/data";
 import { NextResponse } from "next/server";
 
+export const revalidate = 3600; // Cache for 1 hour
+
 const propertyId = process.env.GA4_PROPERTY_ID;
 const clientEmail = process.env.GA4_CLIENT_EMAIL;
 const privateKey = process.env.GA4_PRIVATE_KEY;
