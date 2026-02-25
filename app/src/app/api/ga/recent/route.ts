@@ -65,11 +65,21 @@ export async function GET() {
         const path = row.dimensionValues?.[0]?.value || "";
         // Extract query parameter 'q'
         try {
+          // GA4 returns paths like "/?q=トヨタ?q=トヨタ" in some cases.
+          // We need to parse this and extract the clean query.
           const url = new URL(path, "https://example.com");
-          const q = url.searchParams.get("q");
-          if (q && q.trim().length > 1) {
+          let q = url.searchParams.get("q");
+
+          if (q) {
+            // If the query itself contains "?q=", it's a duplication from GA4.
+            // Split it and take the first part.
+            if (q.includes("?q=")) {
+              q = q.split("?q=")[0];
+            }
+
             const normalized = q.trim();
-            if (!seen.has(normalized)) {
+            // Filter out short or empty strings and ensure uniqueness
+            if (normalized.length > 0 && !seen.has(normalized)) {
               queries.push(normalized);
               seen.add(normalized);
             }
