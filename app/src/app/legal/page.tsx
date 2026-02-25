@@ -50,15 +50,15 @@ const LegalPage = () => {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 p-6 md:p-8 hover:bg-primary/5 transition-colors">
               <div className="text-primary font-bold text-sm uppercase tracking-wider mb-2 md:mb-0">
-                事業者名
+                販売業者
               </div>
               <div className="md:col-span-2 text-slate-800 dark:text-slate-200 font-medium">
-                大学生だった.
+                個人事業主
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 p-6 md:p-8 hover:bg-primary/5 transition-colors">
               <div className="text-primary font-bold text-sm uppercase tracking-wider mb-2 md:mb-0">
-                代表者名
+                運営責任者
               </div>
               <div className="md:col-span-2 text-slate-800 dark:text-slate-200 font-medium">
                 大学生だった.
@@ -101,7 +101,7 @@ const LegalPage = () => {
                 販売価格
               </div>
               <div className="md:col-span-2 text-slate-800 dark:text-slate-200 font-medium">
-                各支払いページ（Stripe）に表示される金額
+                金額はご支援者様にて50~100,000円の間で任意にご入力ください。
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 p-6 md:p-8 hover:bg-primary/5 transition-colors">
@@ -130,18 +130,10 @@ const LegalPage = () => {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 p-6 md:p-8 hover:bg-primary/5 transition-colors">
               <div className="text-primary font-bold text-sm uppercase tracking-wider mb-2 md:mb-0">
-                商品の引渡時期
-              </div>
-              <div className="md:col-span-2 text-slate-800 dark:text-slate-200 font-medium">
-                決済完了後、即時（アカウントが有効化されます）
-              </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 p-6 md:p-8 hover:bg-primary/5 transition-colors">
-              <div className="text-primary font-bold text-sm uppercase tracking-wider mb-2 md:mb-0">
-                返品・キャンセル
+                返金・キャンセル
               </div>
               <div className="md:col-span-2 text-slate-800 dark:text-slate-200 font-medium leading-relaxed">
-                商品の性質上、決済完了後の返品・返金は受け付けておりません。
+                決済完了後の返金は受け付けておりません。
               </div>
             </div>
           </div>

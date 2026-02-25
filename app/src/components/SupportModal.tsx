@@ -35,6 +35,7 @@ export function SupportModal({ isOpen, onClose }: Props) {
           <p className="text-slate-400 text-sm leading-relaxed mb-8">
             正社員カウンターをご利用いただきありがとうございます！
             もし便利だと感じていただけたら、今後の運営を続けるためのサポートをいただけるととても励みになります。
+            金額はご支援者様にて50~100,000円の間で任意にご入力ください。
           </p>
           <p className="text-slate-400 text-sm leading-relaxed mb-4">
             開発の裏側や最新情報については、ぜひ開発者ブログをご覧ください。
