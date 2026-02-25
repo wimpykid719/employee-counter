@@ -170,6 +170,9 @@ export function SearchForm() {
   const [corporateNumber, setCorporateNumber] = useState("");
   const [initialSearchDone, setInitialSearchDone] = useState(false);
   const [recentQueries, setRecentQueries] = useState<string[]>([]);
+  const [visibleCount, setVisibleCount] = useState(5);
+  const [showToast, setShowToast] = useState(false);
+  const [toastQuery, setToastQuery] = useState("");
 
   useEffect(() => {
     fetch("/api/ga/recent")
@@ -181,6 +184,26 @@ export function SearchForm() {
       })
       .catch((err) => console.error("Failed to fetch recent queries:", err));
   }, []);
+
+  useEffect(() => {
+    if (recentQueries.length > visibleCount) {
+      const timer = setInterval(() => {
+        setVisibleCount((prev) => {
+          const nextCount = prev + 1;
+          if (nextCount <= recentQueries.length) {
+            const newQuery = recentQueries[prev];
+            setToastQuery(newQuery);
+            setShowToast(true);
+            setTimeout(() => setShowToast(false), 10000); // Hide after 10 seconds
+            return nextCount;
+          }
+          clearInterval(timer);
+          return prev;
+        });
+      }, 45000); // 45 seconds
+      return () => clearInterval(timer);
+    }
+  }, [recentQueries, visibleCount]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
@@ -335,7 +358,7 @@ export function SearchForm() {
             <span className="text-xs text-surface-muted w-full mb-1">
               最近検索された企業:
             </span>
-            {recentQueries.map((q) => (
+            {recentQueries.slice(0, visibleCount).map((q, index) => (
               <button
                 key={q}
                 type="button"
@@ -343,7 +366,10 @@ export function SearchForm() {
                   setQuery(q);
                   search(q);
                 }}
-                className="text-xs bg-surface border border-border hover:border-primary/50 hover:text-primary px-3 py-1 rounded-full transition-colors cursor-pointer"
+                className={`
+                  text-xs bg-surface border border-border hover:border-primary/50 hover:text-primary px-3 py-1 rounded-full transition-all duration-700 cursor-pointer
+                  ${index >= 5 ? "animate-in fade-in slide-in-from-bottom-1" : ""}
+                `}
               >
                 {q}
               </button>
@@ -351,6 +377,42 @@ export function SearchForm() {
           </div>
         )}
       </section>
+
+      {/* Live Notification Toast */}
+      <div
+        className={`fixed bottom-6 left-6 z-50 transition-all duration-500 transform ${
+          showToast
+            ? "translate-y-0 opacity-100"
+            : "translate-y-12 opacity-0 pointer-events-none"
+        }`}
+      >
+        <div className="bg-surface border border-border shadow-2xl rounded-2xl p-4 pr-6 flex items-center gap-4 max-w-xs md:max-w-md animate-in fade-in slide-in-from-left-4">
+          <div className="relative">
+            <div className="size-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+              <span className="material-symbols-outlined text-2xl">search</span>
+            </div>
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="text-[10px] text-primary font-bold uppercase tracking-wider mb-0.5 flex items-center gap-2">
+              <span className="relative flex size-1.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
+                <span className="relative inline-flex size-1.5 rounded-full bg-primary" />
+              </span>
+              <span>たった今検索されました</span>
+            </div>
+            <p className="text-foreground font-bold text-sm truncate">
+              {toastQuery}
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setShowToast(false)}
+            className="text-surface-muted hover:text-foreground transition-colors cursor-pointer"
+          >
+            <span className="material-symbols-outlined text-lg">close</span>
+          </button>
+        </div>
+      </div>
 
       {error && (
         <div className="rounded-2xl bg-red-500/10 border border-red-500/30 text-red-600 dark:text-red-400 px-6 py-4">
