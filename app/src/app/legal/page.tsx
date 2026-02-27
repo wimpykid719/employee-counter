@@ -81,12 +81,7 @@ const LegalPage = () => {
                   <span className="material-symbols-outlined text-primary text-sm">
                     mail
                   </span>
-                  <a
-                    className="hover:text-primary underline underline-offset-4 decoration-primary/30 break-all"
-                    href="mailto:daigakuseidatta.dev+seishaincounter@gmail.com"
-                  >
-                    daigakuseidatta.dev+seishaincounter@gmail.com
-                  </a>
+                  <span>請求があった場合に遅滞なく開示いたします</span>
                 </p>
                 <p className="flex items-center gap-2">
                   <span className="material-symbols-outlined text-primary text-sm">
