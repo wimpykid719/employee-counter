@@ -35,7 +35,7 @@ export function SupportModal({ isOpen, onClose }: Props) {
           <p className="text-slate-400 text-sm leading-relaxed mb-8">
             正社員カウンターをご利用いただきありがとうございます！
             もし便利だと感じていただけたら、今後の運営を続けるためのサポートをいただけるととても励みになります。
-            金額はご支援者様にて50~100,000円の間で任意にご入力ください。
+            金額はご支援者様にて300~5,000円の間で任意にご入力ください。（Zennのバッジを送るを介して）
           </p>
           <p className="text-slate-400 text-sm leading-relaxed mb-4">
             開発の裏側や最新情報については、ぜひ開発者ブログをご覧ください。
@@ -62,10 +62,6 @@ export function SupportModal({ isOpen, onClose }: Props) {
               arrow_outward
             </span>
           </a>
-          <div className="mt-6 flex items-center justify-center gap-2 text-xs text-slate-400">
-            <span className="material-symbols-outlined text-sm">lock</span>
-            <span>Secure payment processed by Stripe</span>
-          </div>
         </div>
         <div className="absolute bottom-0 left-0 right-0 h-1 bg-surface-dark-lighter"></div>
       </div>

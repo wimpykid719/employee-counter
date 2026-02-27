@@ -101,7 +101,7 @@ const LegalPage = () => {
                 販売価格
               </div>
               <div className="md:col-span-2 text-slate-800 dark:text-slate-200 font-medium">
-                金額はご支援者様にて50~100,000円の間で任意にご入力ください。
+                金額はご支援者様にて300~5,000円の間で任意にご入力ください。（Zennのバッジを送るを介して）
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 p-6 md:p-8 hover:bg-primary/5 transition-colors">
