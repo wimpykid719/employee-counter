@@ -49,7 +49,7 @@ export function SupportModal({ isOpen, onClose }: Props) {
             </a>
           </p>
           <a
-            href="xxx"
+            href="https://zenn.dev/unemployed/articles/seishain-counter#%E6%9C%80%E5%BE%8C%E3%81%AB"
             target="_blank"
             rel="noopener noreferrer"
             className="cursor-pointer w-full bg-primary hover:bg-primary/90 text-background-dark font-bold text-base py-3.5 px-6 rounded-xl transition-all duration-200 flex items-center justify-center gap-3 group shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:-translate-y-0.5"
