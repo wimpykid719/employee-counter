@@ -84,7 +84,7 @@ export async function getRecentQueries(): Promise<string[]> {
       }
     }
 
-    return queries;
+    return queries.reverse();
   } catch (error) {
     console.error("GA4 API Error:", error);
     return [];
