@@ -184,7 +184,6 @@ export function SearchForm({
     const min = 10000;
     const max = 45000;
     const randomNum = Math.floor(Math.random() * (max - min + 1)) + min;
-    console.log("randomNum", randomNum);
 
     // メインの待機タイマー
     const timer = setTimeout(() => {
