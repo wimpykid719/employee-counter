@@ -178,24 +178,37 @@ export function SearchForm({
   const [toastQuery, setToastQuery] = useState("");
 
   useEffect(() => {
-    if (initialRecentQueries.length > visibleCount) {
-      const timer = setInterval(() => {
-        setVisibleCount((prev) => {
-          const nextCount = prev + 1;
-          if (nextCount <= initialRecentQueries.length) {
-            const newQuery = initialRecentQueries[prev];
-            setToastQuery(newQuery);
-            setShowToast(true);
-            setTimeout(() => setShowToast(false), 10000); // Hide after 10 seconds
-            return nextCount;
-          }
-          clearInterval(timer);
-          return prev;
-        });
-      }, 45000); // 45 seconds
-      return () => clearInterval(timer);
+    // すべて表示しきったら何もしない
+    if (visibleCount >= initialRecentQueries.length) return;
+
+    const min = 10000;
+    const max = 45000;
+    const randomNum = Math.floor(Math.random() * (max - min + 1)) + min;
+    console.log("randomNum", randomNum);
+
+    // メインの待機タイマー
+    const timer = setTimeout(() => {
+      const currentQuery = initialRecentQueries[visibleCount];
+
+      setToastQuery(currentQuery);
+      setShowToast(true);
+      setVisibleCount((prev) => prev + 1);
+    }, randomNum);
+
+    // トーストを10秒後に非表示にするタイマー（もし表示中なら）
+    let hideTimer: NodeJS.Timeout;
+    if (showToast) {
+      hideTimer = setTimeout(() => {
+        setShowToast(false);
+      }, 10000);
     }
-  }, [initialRecentQueries, visibleCount]);
+
+    // クリーンアップ：次のサイクルに入る前に前のタイマーをすべて消す
+    return () => {
+      clearTimeout(timer);
+      if (hideTimer) clearTimeout(hideTimer);
+    };
+  }, [initialRecentQueries, visibleCount, showToast]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
